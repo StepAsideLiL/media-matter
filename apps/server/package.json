@@ -1,5 +1,5 @@
 {
-  "name": "media-matter",
+  "name": "server",
   "version": "1.0.0",
   "description": "A nodejs server to upload and download media files in ftp server",
   "scripts": {
