@@ -31,6 +31,21 @@ services:
     networks:
       - nodeserver
 
+  db-init:
+    image: mariadb:10.6.4-focal
+    depends_on:
+      - db
+    command: >
+      bash -c "
+      sleep 10 && 
+      echo 'CREATE DATABASE IF NOT EXISTS media;' | mysql -h db -u root -p$MYSQL_ROOT_PASSWORD
+      "
+    environment:
+      MYSQL_ROOT_PASSWORD: media
+    networks:
+      - nodeserver
+    restart: "no"
+
   phpmyadmin:
     depends_on:
       - db
