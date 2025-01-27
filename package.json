@@ -3,13 +3,16 @@
   "private": true,
   "scripts": {
     "build": "turbo build",
-    "build:server": "turbo build --filter=media-matter",
+    "build:client": "turbo build --filter=client",
+    "build:server": "turbo build --filter=server",
     "dev": "turbo dev",
-    "dev:server": "turbo dev --filter=media-matter --env-mode=loose",
+    "dev:client": "turbo dev --filter=client",
+    "dev:server": "turbo dev --filter=server --env-mode=loose",
     "lint": "turbo lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "start": "turbo start",
-    "start:server": "turbo start --filter=media-matter --env-mode=loose"
+    "start:client": "turbo start --filter=client",
+    "start:server": "turbo start --filter=server --env-mode=loose"
   },
   "devDependencies": {
     "prettier": "^3.4.2",
