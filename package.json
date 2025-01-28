@@ -5,7 +5,7 @@
     "build": "turbo build",
     "build:client": "turbo build --filter=client",
     "build:server": "turbo build --filter=server",
-    "dev": "turbo dev",
+    "dev": "turbo dev --env-mode=loose",
     "dev:client": "turbo dev --filter=client",
     "dev:server": "turbo dev --filter=server --env-mode=loose",
     "lint": "turbo lint",
