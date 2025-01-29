@@ -48,6 +48,7 @@ export default function Page() {
             value={username}
             onChange={(event: ChangeEvent<HTMLInputElement>) => {
               setError("");
+              setLoading(false);
               setUsername(event.target.value);
             }}
           />
