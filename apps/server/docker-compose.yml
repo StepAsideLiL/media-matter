@@ -1,67 +1,41 @@
 services:
-  ftp-server:
-    image: stilliard/pure-ftpd
-    container_name: ftp-server
+  db:
+    image: mariadb:latest
+    container_name: mariadb
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: media
+    volumes:
+      - db_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: phpmyadmin
+    restart: always
+    environment:
+      PMA_HOST: db
+      PMA_USER: root
+      PMA_PASSWORD: rootpassword
+    ports:
+      - "8080:80"
+    depends_on:
+      - db
+
+  ftp:
+    image: delfer/alpine-ftp-server:latest
+    container_name: ftp_server
+    restart: always
+    environment:
+      USERS: "testuser:testpass:1000"
     ports:
       - "21:21"
       - "30000-30009:30000-30009"
-    environment:
-      FTP_USER_NAME: media
-      FTP_USER_PASS: media
-      FTP_USER_HOME: /home/user
     volumes:
-      - ftp-data:/home/user
-    networks:
-      - nodeserver
-
-  db:
-    image: mariadb:10.6.4-focal
-    command: "--default-authentication-plugin=mysql_native_password"
-    volumes:
-      - db_data:/var/lib/mysql
-    restart: always
-    environment:
-      - MYSQL_ROOT_PASSWORD=media
-      - MYSQL_DATABASE=media
-      - MYSQL_USER=media
-      - MYSQL_PASSWORD=media
-    expose:
-      - 3306
-      - 33060
-    networks:
-      - nodeserver
-
-  db-init:
-    image: mariadb:10.6.4-focal
-    depends_on:
-      - db
-    command: >
-      bash -c "
-      sleep 10 && 
-      echo 'CREATE DATABASE IF NOT EXISTS media;' | mysql -h db -u root -p$MYSQL_ROOT_PASSWORD
-      "
-    environment:
-      MYSQL_ROOT_PASSWORD: media
-    networks:
-      - nodeserver
-    restart: "no"
-
-  phpmyadmin:
-    depends_on:
-      - db
-    image: phpmyadmin
-    restart: always
-    ports:
-      - "8081:80"
-    environment:
-      PMA_HOST: db
-      MYSQL_ROOT_PASSWORD: media
-    networks:
-      - nodeserver
+      - ftp_data:/home/testuser
 
 volumes:
   db_data:
-  ftp-data:
-
-networks:
-  nodeserver:
+  ftp_data:
