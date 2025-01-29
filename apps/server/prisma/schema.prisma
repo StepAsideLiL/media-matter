@@ -12,3 +12,22 @@ datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
+
+model Users {
+  id       String @id @unique @default(cuid())
+  username String @unique
+
+  Files Files[]
+}
+
+model Files {
+  id String @id @unique @default(cuid())
+
+  name          String
+  fileType      String
+  fileExtension String
+  uploadDate    DateTime @default(now())
+
+  userId String
+  user   Users  @relation(fields: [userId], references: [id])
+}
