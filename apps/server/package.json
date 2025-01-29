@@ -4,7 +4,7 @@
   "description": "A nodejs server to upload and download media files in ftp server",
   "scripts": {
     "build": "concurrently \"prisma generate\" \"ncc build ./src/index.ts -o dist/\"",
-    "dev": "concurrently \"docker compose up\" \"prisma generate\" \"ncc build ./src/index.ts -w -o dist/\" \"nodemon dist/index.js\"",
+    "dev": "concurrently \"docker compose up\" \"prisma generate\" \"ncc build ./src/index.ts -w -o dist/\" \"nodemon dist/index.js\" \"prisma studio --browser none\"",
     "start": "concurrently \"docker compose up\" \"prisma generate\" \"node dist/index.js\""
   },
   "keywords": [
