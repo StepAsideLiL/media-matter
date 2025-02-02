@@ -1,5 +1,5 @@
 import "dotenv/config";
-import express from "express";
+import express, { Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import authenticateJwtToken from "./lib/authenticateJwtToken";
 import prisma from "./lib/prismadb";
@@ -47,6 +47,12 @@ app.post("/auth/current-user", authenticateJwtToken, (req, res) => {
   const { username } = req.body;
 
   res.json({ username });
+});
+
+app.get("/profiles", async (req: Request, res: Response) => {
+  const users = await prisma.users.findMany();
+
+  res.json(users);
 });
 
 app.listen(port, () => {
