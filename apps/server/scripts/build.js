@@ -35,6 +35,8 @@ async function createFiles(file) {
         );
       })
     );
+
+    console.log("Build completed successfully.");
   } catch (error) {
     console.error(`Error processing file ${file}:`, error);
   }
@@ -51,7 +53,6 @@ async function build() {
     });
 
     await Promise.all(files.map(createFiles));
-    console.log("Build completed successfully.");
   } catch (error) {
     console.error("Error during build:", error);
   }
@@ -70,7 +71,6 @@ function watchChanges() {
     console.log(`File ${path} has been ${event}`);
     try {
       await build();
-      console.log("Rebuild completed.");
     } catch (error) {
       console.error("Error during rebuild:", error);
     }
@@ -88,6 +88,9 @@ async function main() {
 
     const args = process.argv.slice(2);
     const devMode = args.includes("--dev");
+
+    // Fist build in development mode
+    await build();
 
     if (devMode) {
       // Watch for changes in development mode
