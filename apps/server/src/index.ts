@@ -25,6 +25,7 @@ app.post("/auth/login", async (req, res) => {
 
   if (userExists) {
     res.json({ token: token });
+    return;
   }
 
   const user = await prisma.users.create({
@@ -36,6 +37,7 @@ app.post("/auth/login", async (req, res) => {
   if (!user) {
     res.sendStatus(401);
     res.json({ token: null });
+    return;
   }
 
   res.json({ token });
