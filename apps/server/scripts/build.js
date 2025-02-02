@@ -1,12 +1,14 @@
 const ncc = require("@vercel/ncc");
 const { basename, resolve } = require("path");
 const glob = require("fast-glob");
-const { mkdir, writeFile, remove } = require("fs-extra");
+const { mkdir, writeFile, remove, pathExists } = require("fs-extra");
 const chokidar = require("chokidar");
+const nodemon = require("nodemon");
 
 const DIST_DIR = resolve(__dirname, "../dist");
 const CACHE_DIR = resolve(DIST_DIR, ".cache");
 const SRC_DIR = resolve(__dirname, "../src");
+const devMode = process.argv.slice(2).includes("--dev");
 
 const options = {
   cache: CACHE_DIR,
@@ -29,6 +31,13 @@ async function createFiles(file) {
 
     await Promise.all(
       assetsNames.map(async (name, index) => {
+        if (
+          (await pathExists(resolve(DIST_DIR, basename(name)))) &&
+          basename(name) === "query_engine-windows.dll.node"
+        ) {
+          return;
+        }
+
         await writeFile(
           resolve(DIST_DIR, basename(name)),
           assetsSource[index].source
@@ -61,7 +70,12 @@ async function build() {
 /**
  * Watches for changes in the SRC_DIR and triggers a rebuild.
  */
-function watchChanges() {
+async function watchChanges() {
+  await build();
+
+  nodemon({ script: resolve(DIST_DIR, "index.js") });
+  nodemon.emit("start");
+
   const watcher = chokidar.watch(SRC_DIR, {
     persistent: true,
     ignoreInitial: true,
@@ -70,7 +84,9 @@ function watchChanges() {
   watcher.on("all", async (event, path) => {
     console.log(`File ${path} has been ${event}`);
     try {
-      await build();
+      await build().then(() => {
+        nodemon.emit("restart");
+      });
     } catch (error) {
       console.error("Error during rebuild:", error);
     }
@@ -83,23 +99,12 @@ function watchChanges() {
 
 async function main() {
   try {
-    // Make .cache dir
     await mkdir(CACHE_DIR, { recursive: true });
 
-    const args = process.argv.slice(2);
-    const devMode = args.includes("--dev");
-
-    // Fist build in development mode
-    await build();
-
     if (devMode) {
-      // Watch for changes in development mode
-      watchChanges();
-      console.log("Watching for changes...");
+      await watchChanges();
     } else {
-      // Build and bundle in production mode
       await build();
-      // Remove .cache dir
       await remove(CACHE_DIR);
     }
   } catch (error) {
