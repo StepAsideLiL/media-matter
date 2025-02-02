@@ -38,17 +38,14 @@ export default async function RootLayout({
             </Link>
 
             <nav className="flex items-center gap-5">
+              <Link href={"/"} className="underline hover:no-underline">
+                Home
+              </Link>
+              <Link href={"/profiles"} className="underline hover:no-underline">
+                Profiles
+              </Link>
               {currentUser.username ? (
                 <>
-                  <Link href={"/"} className="underline hover:no-underline">
-                    Home
-                  </Link>
-                  <Link
-                    href={"/profiles"}
-                    className="underline hover:no-underline"
-                  >
-                    Profiles
-                  </Link>
                   <LogoutButton />
                 </>
               ) : (
