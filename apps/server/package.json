@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "description": "A nodejs server to upload and download media files in ftp server",
   "scripts": {
-    "build": "concurrently --kill-others \"prisma generate\" \"node scripts/build.js\"",
-    "dev": "concurrently --kill-others \"docker compose up\" \"prisma generate\" \"node scripts/build.js --dev\" \"prisma studio --browser none\"",
-    "start": "concurrently --kill-others \"docker compose up\" \"prisma generate\" \"node dist/index.js\""
+    "build": "concurrently \"prisma generate\" \"node scripts/build.js\"",
+    "dev": "concurrently \"docker compose up\" \"prisma generate\" \"node scripts/build.js --dev\" \"prisma studio --browser none\"",
+    "start": "concurrently \"docker compose up\" \"prisma generate\" \"node dist/index.js\""
   },
   "keywords": [
     "server",
