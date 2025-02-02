@@ -2,6 +2,7 @@ import "server-only";
 
 import { cookies } from "next/headers";
 import { cache } from "react";
+import api from "./api";
 
 type User =
   | {
@@ -10,14 +11,6 @@ type User =
   | {
       username: null;
     };
-
-function api(route: string) {
-  const baseUrl = "http://localhost:3000/";
-  const formattedRoute = route.startsWith("/") ? route.slice(1) : route;
-  console.log(`${baseUrl}${formattedRoute}`);
-
-  return `${baseUrl}${formattedRoute}`;
-}
 
 /**
  * This function returns the current user from the cookies.
