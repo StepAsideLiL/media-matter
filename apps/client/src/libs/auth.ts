@@ -65,8 +65,6 @@ const loginUser = cache(async (username: string) => {
     .then((res) => res.token)
     .catch(() => null);
 
-  console.log(token);
-
   if (token === null) {
     return {
       success: false,
