@@ -25,8 +25,10 @@ export default function authenticateJwtToken(
     token as string,
     process.env.JWT_SECRET_TOKEN as string,
     (err, payload) => {
-      console.log(err);
-      if (err) return res.sendStatus(403);
+      if (err) {
+        console.log(err);
+        return res.sendStatus(403);
+      }
 
       if (typeof payload !== "object" || typeof payload.username !== "string") {
         return res.sendStatus(403);
