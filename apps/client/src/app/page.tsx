@@ -1,3 +1,4 @@
+import FileUpload from "@/components/FileUpload";
 import auth from "@/libs/auth";
 import { cn } from "@/libs/cn";
 import Link from "next/link";
@@ -15,9 +16,7 @@ export default async function Page({
     <main className="max-w-5xl mx-auto">
       <section className="py-10 flex items-center justify-center">
         {currentUser.username ? (
-          <button className="px-5 py-2 text-background bg-foreground hover:bg-gray-300 hover:text-gray-800 rounded-md">
-            Upload
-          </button>
+          <FileUpload />
         ) : (
           <h1 className="text-gray-500 text-center">
             <Link href={"/login"} className="underline hover:no-underline">
