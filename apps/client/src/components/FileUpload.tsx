@@ -54,7 +54,10 @@ export default function FileUpload() {
         </div>
       )}
 
-      <button className="px-5 py-2 text-background bg-foreground hover:bg-gray-300 hover:text-gray-800 rounded-md">
+      <button
+        disabled={files.length === 0}
+        className="px-5 py-2 text-background bg-foreground hover:bg-gray-300 hover:text-gray-800 rounded-md disabled:bg-gray-400 disabled:text-gray-200"
+      >
         Upload
       </button>
     </div>
