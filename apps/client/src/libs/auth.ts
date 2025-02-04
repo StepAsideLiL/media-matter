@@ -12,13 +12,18 @@ type User =
       username: null;
     };
 
+const currentUserToken = cache(async (): Promise<string | null> => {
+  const cookiesStore = await cookies();
+  const token = cookiesStore.get("media-matter-auth-token")?.value ?? null;
+  return token;
+});
+
 /**
  * This function returns the current user from the cookies.
  * @returns Object username: string if token is valid, null otherwise.
  */
 const currentUser = cache(async (): Promise<User> => {
-  const cookiesStore = await cookies();
-  const token = cookiesStore.get("media-matter-auth-token")?.value ?? null;
+  const token = await currentUserToken();
 
   if (token === null) {
     return { username: null };
@@ -99,6 +104,7 @@ async function logoutUser() {
 }
 
 const auth = {
+  currentUserToken,
   currentUser,
   loginUser,
   logoutUser,
