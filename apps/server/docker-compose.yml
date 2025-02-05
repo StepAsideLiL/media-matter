@@ -1,13 +1,13 @@
 services:
   db:
     image: mariadb:latest
-    container_name: mariadb
+    container_name: media-matter-db
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: rootpassword
       MYSQL_DATABASE: media
     volumes:
-      - db_data:/var/lib/mysql
+      - media_matter_db_data:/var/lib/mysql
     ports:
       - "3306:3306"
 
@@ -25,17 +25,19 @@ services:
       - db
 
   ftp:
-    image: delfer/alpine-ftp-server:latest
-    container_name: ftp_server
+    image: garethflowers/ftp-server:latest
+    container_name: media-matter-ftp
     restart: always
     environment:
-      USERS: "testuser:testpass:1000"
+      - PUBLIC_IP=192.168.0.1
+      - FTP_PASS=123
+      - FTP_USER=user
     ports:
-      - "21:21"
-      - "30000-30009:30000-30009"
+      - "20-21:20-21/tcp"
+      - "40000-40009:40000-40009/tcp"
     volumes:
-      - ftp_data:/home/testuser
+      - media_matter_ftp_data:/home/user
 
 volumes:
-  db_data:
-  ftp_data:
+  media_matter_db_data:
+  media_matter_ftp_data:
