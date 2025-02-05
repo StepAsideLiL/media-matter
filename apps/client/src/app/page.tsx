@@ -11,12 +11,13 @@ export default async function Page({
   const tab = (await searchParams).tab;
 
   const currentUser = await auth.currentUser();
+  const userToken = await auth.currentUserToken();
 
   return (
     <main className="max-w-5xl mx-auto">
       <section className="py-10 flex items-center justify-center">
         {currentUser.username ? (
-          <FileUpload />
+          <FileUpload userToken={userToken} />
         ) : (
           <h1 className="text-gray-500 text-center">
             <Link href={"/login"} className="underline hover:no-underline">
