@@ -25,10 +25,12 @@ app.use(
   })
 );
 
+// Root route
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
+// /auth/login route
 app.post("/auth/login", async (req, res) => {
   const { username } = req.body;
   const token = jwt.sign({ username }, process.env.JWT_SECRET_TOKEN as string);
@@ -59,18 +61,21 @@ app.post("/auth/login", async (req, res) => {
   res.json({ token });
 });
 
+// /auth/current-user route
 app.post("/auth/current-user", authenticateJwtToken, (req, res) => {
   const { username } = req.body;
 
   res.json({ username });
 });
 
+// /profiles route
 app.get("/profiles", async (req: Request, res: Response) => {
   const users = await prisma.users.findMany();
 
   res.json(users);
 });
 
+// /upload route to upload files to FTP
 app.post(
   "/upload",
   authenticateJwtToken,
