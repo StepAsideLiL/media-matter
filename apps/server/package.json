@@ -31,7 +31,6 @@
     "@types/jsonwebtoken": "^9.0.8",
     "@types/node": "^22.10.10",
     "@vercel/ncc": "^0.38.3",
-    "basic-ftp": "^5.0.5",
     "chokidar": "^4.0.3",
     "concurrently": "^9.1.2",
     "cors": "^2.8.5",
