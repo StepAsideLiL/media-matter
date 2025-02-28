@@ -6,7 +6,7 @@ import prisma from "./lib/prismadb";
 import fileUpload, { UploadedFile } from "express-fileupload";
 import cors from "cors";
 import path from "path";
-import uploadToFTP from "./lib/uploadToFtp";
+import uploadToMinio from "./lib/uploadToMinio";
 
 const app = express();
 const port = 3000;
@@ -95,7 +95,7 @@ app.post(
     }
 
     try {
-      await Promise.all(files.map(async (file) => await uploadToFTP(file)));
+      await Promise.all(files.map(async (file) => await uploadToMinio(file)));
       res.send({ success: true, message: "Upload successful." });
     } catch (error) {
       console.error(error);
