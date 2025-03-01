@@ -6,9 +6,11 @@ import api from "./api";
 
 type User =
   | {
+      userId: string;
       username: string;
     }
   | {
+      userId: null;
       username: null;
     };
 
@@ -26,10 +28,10 @@ const currentUser = cache(async (): Promise<User> => {
   const token = await currentUserToken();
 
   if (token === null) {
-    return { username: null };
+    return { userId: null, username: null };
   }
 
-  const username = await fetch(api("auth/current-user"), {
+  const user: User = await fetch(api("auth/current-user"), {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -37,17 +39,17 @@ const currentUser = cache(async (): Promise<User> => {
     },
   })
     .then((res) => res.json())
-    .then((user) => user.username)
     .catch(() => {
       return null;
     });
 
-  if (typeof username !== "string") {
-    return { username: null };
+  if (typeof user.username !== "string" || typeof user.userId !== "string") {
+    return { userId: null, username: null };
   }
 
   return {
-    username: username,
+    userId: user.userId,
+    username: user.username,
   };
 });
 

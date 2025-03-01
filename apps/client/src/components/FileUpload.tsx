@@ -6,8 +6,10 @@ import { useState } from "react";
 
 export default function FileUpload({
   userToken,
+  userId,
 }: {
   userToken: string | null;
+  userId: string;
 }) {
   const [files, setFile] = useState<File[]>([]);
   const [error, setError] = useState<string>("");
@@ -26,6 +28,7 @@ export default function FileUpload({
     const formData = new FormData();
 
     files.forEach((file) => formData.append("files", file));
+    formData.append("userId", userId);
 
     const res = await fetch(api("/upload"), {
       method: "POST",

@@ -2,6 +2,7 @@ import FileUpload from "@/components/FileUpload";
 import auth from "@/libs/auth";
 import { cn } from "@/libs/cn";
 import Link from "next/link";
+import AllFiles from "@/components/AllFiles";
 
 export default async function Page({
   searchParams,
@@ -17,7 +18,7 @@ export default async function Page({
     <main className="max-w-5xl mx-auto">
       <section className="py-10 flex items-center justify-center">
         {currentUser.username ? (
-          <FileUpload userToken={userToken} />
+          <FileUpload userToken={userToken} userId={currentUser.userId} />
         ) : (
           <h1 className="text-gray-500 text-center">
             <Link href={"/login"} className="underline hover:no-underline">
@@ -50,7 +51,7 @@ export default async function Page({
           </div>
         )}
 
-        <div>Files</div>
+        <AllFiles tab={tab} />
       </section>
     </main>
   );
