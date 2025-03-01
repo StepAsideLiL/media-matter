@@ -62,16 +62,20 @@ export default function FileUpload({
       {files.length > 0 && (
         <div className="flex justify-center items-center gap-2">
           {files.map((file, index) => (
-            <span key={index} className="relative text-xs flex flex-col gap-1">
+            <span
+              key={index}
+              className="relative text-xs flex flex-col gap-1 w-28"
+            >
               <Image
                 src={URL.createObjectURL(file)}
                 alt={file.name}
                 width={100}
                 height={100}
+                className="w-full"
               />
               <span>{file.name}</span>
               <button
-                className="size-4 absolute top-0 right-0 bg-foreground text-background border border-foreground rounded-full"
+                className="size-4 absolute top-0 right-0 bg-foreground text-background border border-background rounded-full"
                 onClick={() => handleRemoveFile(index)}
               >
                 X
