@@ -29,7 +29,7 @@ export default async function Page({
         )}
       </section>
 
-      <section>
+      <section className="space-y-5">
         {currentUser.username && (
           <div className="flex items-center gap-3">
             <Link
