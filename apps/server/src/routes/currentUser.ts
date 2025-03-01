@@ -1,7 +1,20 @@
+import prisma from "@/lib/prismadb";
 import { Request, Response } from "express";
 
 export default async function currentUser(req: Request, res: Response) {
   const { username } = req.body;
 
-  res.json({ username });
+  const user = await prisma.users.findUnique({
+    where: {
+      username,
+    },
+  });
+
+  if (!user) {
+    res.sendStatus(401);
+    res.json({ userId: null, username: null });
+    return;
+  }
+
+  res.json({ userId: user.id, username: user.username });
 }
