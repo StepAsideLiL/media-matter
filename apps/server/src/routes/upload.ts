@@ -1,4 +1,4 @@
-import uploadToMinio from "@/lib/uploadToMinio";
+import uploadFiles from "@/lib/uploadFiles";
 import { Request, Response } from "express";
 import { UploadedFile } from "express-fileupload";
 
@@ -17,12 +17,14 @@ export default async function upload(req: Request, res: Response) {
     files.push(req.files.files);
   }
 
-  try {
-    await Promise.all(files.map(async (file) => await uploadToMinio(file)));
-    res.send({ success: true, message: "Upload successful." });
-  } catch (error) {
-    console.error(error);
-    res.sendStatus(500);
-    res.send({ success: false, message: "Upload failed." });
-  }
+  await uploadFiles(files, req.body.userId)
+    .then(() => {
+      res.status(200);
+      res.json({ success: true, message: "Upload successful." });
+    })
+    .catch((error) => {
+      console.error(error);
+      res.status(500);
+      res.json({ success: false, message: "Upload failed." });
+    });
 }
