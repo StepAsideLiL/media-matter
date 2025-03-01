@@ -6,7 +6,7 @@ import Link from "next/link";
 export default async function Page({
   searchParams,
 }: {
-  searchParams: Promise<{ tab: string }>;
+  searchParams: Promise<{ tab: string | undefined }>;
 }) {
   const tab = (await searchParams).tab;
 
