@@ -13,7 +13,6 @@ export default async function login(req: Request, res: Response) {
   });
 
   if (userExists) {
-    res.sendStatus(200);
     res.json({ token: token });
     return;
   }
