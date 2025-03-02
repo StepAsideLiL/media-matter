@@ -4,8 +4,6 @@ import { Request, Response } from "express";
 export default async function getAllFiles(req: Request, res: Response) {
   const { tab, userId } = req.body;
 
-  console.log(tab, userId);
-
   if (tab === "all") {
     const files = await prisma.files.findMany();
 
