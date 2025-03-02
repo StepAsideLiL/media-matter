@@ -11,7 +11,6 @@ export default async function currentUser(req: Request, res: Response) {
   });
 
   if (!user) {
-    res.sendStatus(401);
     res.json({ userId: null, username: null });
     return;
   }
