@@ -43,7 +43,7 @@ const currentUser = cache(async (): Promise<User> => {
       return null;
     });
 
-  if (typeof user.username !== "string" || typeof user.userId !== "string") {
+  if (!user.username || !user.userId) {
     return { userId: null, username: null };
   }
 
