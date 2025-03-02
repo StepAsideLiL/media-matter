@@ -30,16 +30,17 @@ export default async function Page({
       </section>
 
       <section className="space-y-5">
-        {currentUser.username && (
-          <div className="flex items-center gap-3">
-            <Link
-              href={"/"}
-              className={cn(
-                tab === undefined ? "" : "text-gray-500 hover:text-gray-300"
-              )}
-            >
-              All Files
-            </Link>
+        <div className="flex items-center gap-3">
+          <Link
+            href={"/"}
+            className={cn(
+              tab === undefined ? "" : "text-gray-500 hover:text-gray-300"
+            )}
+          >
+            All Files
+          </Link>
+
+          {currentUser.username && (
             <Link
               href={"/?tab=my"}
               className={cn(
@@ -48,8 +49,8 @@ export default async function Page({
             >
               My Files
             </Link>
-          </div>
-        )}
+          )}
+        </div>
 
         <AllFiles tab={tab} />
       </section>
