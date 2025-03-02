@@ -24,7 +24,9 @@ export default async function uploadFiles(
     files.map(
       async (file) =>
         await minioClient
-          .fPutObject(bucketName, file.name, file.tempFilePath)
+          .fPutObject(bucketName, file.name, file.tempFilePath, {
+            "Content-Type": file.mimetype,
+          })
           .then(async () => {
             await prisma.files.create({
               data: {
