@@ -1,7 +1,7 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "description": "A nodejs server to upload and download media files in ftp server",
+  "description": "A nodejs server to upload and download media files to MinIO server",
   "scripts": {
     "build": "concurrently \"prisma generate\" \"node scripts/build.js\"",
     "dev": "concurrently \"prisma migrate deploy && prisma generate\" \"node scripts/build.js --dev\" \"prisma studio --browser none\"",
