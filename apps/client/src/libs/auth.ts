@@ -40,7 +40,8 @@ const currentUser = cache(async (): Promise<User> => {
   })
     .then((res) => res.json())
     .catch(() => {
-      return null;
+      console.log("Failed to fetch current user");
+      return { userId: null, username: null };
     });
 
   if (!user.username || !user.userId) {
