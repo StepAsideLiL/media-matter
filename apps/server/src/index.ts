@@ -8,6 +8,7 @@ import login from "@/routes/login";
 import currentUser from "@/routes/currentUser";
 import upload from "@/routes/upload";
 import profiles from "@/routes/profiles";
+import getAllFiles from "./routes/getAllFiles";
 
 const app = express();
 const port = 3000;
@@ -42,6 +43,8 @@ app.get("/profiles", profiles);
 
 // /upload route to upload files to FTP
 app.post("/upload", authenticateJwtToken, upload);
+
+app.post("/all-files", getAllFiles);
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
