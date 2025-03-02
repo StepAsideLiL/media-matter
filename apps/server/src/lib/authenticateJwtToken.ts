@@ -15,10 +15,9 @@ export default function authenticateJwtToken(
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1];
 
-  if (token === null) {
-    res.sendStatus(401);
+  if (token === null || token === undefined) {
     req.body.username = null;
-    next();
+    return next();
   }
 
   jwt.verify(
@@ -27,11 +26,13 @@ export default function authenticateJwtToken(
     (err, payload) => {
       if (err) {
         console.log(err);
-        return res.sendStatus(403);
+        req.body.username = null;
+        return;
       }
 
       if (typeof payload !== "object" || typeof payload.username !== "string") {
-        return res.sendStatus(403);
+        req.body.username = null;
+        return;
       }
 
       req.body.username = payload.username;

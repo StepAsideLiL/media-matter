@@ -4,6 +4,11 @@ import { Request, Response } from "express";
 export default async function currentUser(req: Request, res: Response) {
   const { username } = req.body;
 
+  if (username === null || username === undefined) {
+    res.json({ userId: null, username: null });
+    return;
+  }
+
   const user = await prisma.users.findUnique({
     where: {
       username,
